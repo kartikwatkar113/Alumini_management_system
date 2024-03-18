@@ -1,6 +1,5 @@
 package Alumini_Management_System.model;
 
-import java.sql.Date;
 import java.util.Vector;
 
 public class EventModel {
@@ -8,14 +7,14 @@ public class EventModel {
 	private String ev_name;
 	private String ev_date;
 	private String ev_time;
-	private Vector setAlumini;
+	private Vector<aluminiModel> setAlumini;
 	private Boolean Status;
 
 	public EventModel() {
 
 	}
 
-	public EventModel(String ev_name, String ev_date, String ev_time,Vector setAlumini) {
+	public EventModel(String ev_name, String ev_date, String ev_time,Vector<aluminiModel> setAlumini) {
 		super();
 		this.ev_name = ev_name;
 		this.ev_date = ev_date;

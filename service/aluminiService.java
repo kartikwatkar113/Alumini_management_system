@@ -129,12 +129,17 @@ public class aluminiService {
 	
 /*-------------------------this is for updation by id--------------------------------*/
 	
-	public void update(String alumini_batch,int alumini_id) {
+	public void update() {
 		aluminiModel alm = null;
 		vc = alr.getAluminiData();
 
 		if (vc.size() > 0) {
 			int flag = 0;
+			System.out.println("Enter Batch First for Updation: ");
+			String alumini_batch=k.next();
+			System.out.println("Enter ID for Updation: ");
+			int alumini_id=k.nextInt();
+			
 			String modify_batch = null;
 			
 			for (int i = 0; i < vc.size(); i++) {
@@ -253,6 +258,47 @@ public class aluminiService {
 			System.out.println("There are no Records Found .... :(");
 		}
 		
+	}
+	
+	
+/*----------------------this is for sorting batch wise--------------------*/
+
+	public void sortBatchWise() {
+		
+		vc=alr.getAluminiData();
+		
+		if(vc.size()>0) {
+			
+			SortByBatch sbb=new SortByBatch();
+			
+			Collections.sort(vc, sbb);
+			
+			Vector<aluminiModel>v1=new Vector<aluminiModel>(vc);
+			
+			System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
+			System.out.println("Alumini Id\t||Alumini Name\t||Alumini Email\t||Alumini Mobile Number\t||Alumini Address\t||Alumini Job Description");
+			System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
+			
+			for(int i=0;i<v1.size();i++) {
+				System.out.println("[" + (v1.get(i).getAlumini_batch()) + "] Alumni Batch: \n"
+						+ "--------------------------------------------------------------------------------------------\n");
+				System.out.println(v1.get(i).getAlumini_id()+"\t"+v1.get(i).getAlumini_name()+"\t"+v1.get(i).getAlumini_email()+"\t"+v1.get(i).getAlumini_mob()+"\t"+v1.get(i).getAlumini_address()+"\t"+v1.get(i).getAlumini_jd());
+				
+				for(int j=(i+1);j<v1.size();j++) {
+					if(v1.get(i).getAlumini_batch().equals(v1.get(j).getAlumini_batch())) {
+						
+						System.out.println(v1.get(j).getAlumini_id()+"\t"+v1.get(j).getAlumini_name()+"\t"+v1.get(j).getAlumini_email()+"\t"+v1.get(j).getAlumini_mob()+"\t"+v1.get(j).getAlumini_address()+"\t"+v1.get(j).getAlumini_jd());
+						v1.remove(j);
+					}
+				}
+				System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
+				
+			}
+
+		}
+		else {
+			System.out.println("There are no Record found..... :(");
+		}
 	}
 	
 	

@@ -3,6 +3,7 @@ package Alumini_Management_System.service;
 import java.util.*;
 
 import Alumini_Management_System.model.EventModel;
+import Alumini_Management_System.model.aluminiModel;
 import Alumini_Management_System.repository.EventRepo;
 import Alumini_Management_System.repository.aluminiRepo;
 public class EventService {
@@ -10,13 +11,14 @@ public class EventService {
 	Scanner k=new Scanner(System.in);
 	EventRepo evRepo=new EventRepo();
 	EventModel evm;
+	aluminiModel alm;
 	aluminiRepo alr;
+	
 	Vector <EventModel>v2;
 	
 /*-------------------this is for add event------------------------------*/
 	public void addEvent() {
 		
-		k.nextLine();
 		boolean flag=false;
 		System.out.println("\n------------------------------------------------");
 		System.out.println("Enter Event Name...");
@@ -39,7 +41,8 @@ public class EventService {
 			System.out.println("Enter Time(Hour:minute)(am/pm):");
 			String ev_time=k.next();
 			
-			evm=new EventModel(ev_name,ev_date,ev_time,alr.getAluminiData());
+			Vector<aluminiModel>v3=new Vector<aluminiModel>(alr.getAluminiData());
+			evm=new EventModel(ev_name,ev_date,ev_time,v3);
 			
 			boolean b=evRepo.isEventAdd(evm);
 			
@@ -73,6 +76,18 @@ public class EventService {
 				Object ob=v2.get(i);
 				EventModel evm=(EventModel)ob;
 				System.out.println(evm.getEv_name()+"\t"+evm.getEv_date()+"\t"+evm.getEv_time());
+				
+				Iterator<aluminiModel> itr=evm.getSetAlumini().iterator();
+				
+				while(itr.hasNext()) {
+					
+					System.out.println(itr.next());
+				}
+				
+				
+//				for(Object ob1:evm.getSetAlumini()) {
+//					
+//				}
 				
 				
 			}

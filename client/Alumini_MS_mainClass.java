@@ -3,6 +3,7 @@ package Alumini_Management_System.client;
 import java.util.*;
 
 import Alumini_Management_System.model.aluminiModel;
+import Alumini_Management_System.service.EventService;
 import Alumini_Management_System.service.aluminiService;
 
 public class Alumini_MS_mainClass{
@@ -13,6 +14,7 @@ public class Alumini_MS_mainClass{
 		int choice;
 		
 		aluminiService als=new aluminiService();
+		EventService evs=new EventService();
 		
 		Vector<aluminiModel>v1;
 		
@@ -23,7 +25,9 @@ public class Alumini_MS_mainClass{
 			System.out.println("3.Search Alumini's Data");
 			System.out.println("4.Update Alumini Details by ID");
 			System.out.println("5.Delete Alumini");
-			System.out.println("6.Add Event ");
+			System.out.println("6.Sort Alumini BatchWise");
+			System.out.println("7.Add Event with Alumini data");//
+			System.out.println("8.Show Event With Alumini's data");//
 			System.out.println("===========================================");
 			System.out.println("Enter choice: ");
 			choice=k.nextInt();
@@ -131,37 +135,47 @@ public class Alumini_MS_mainClass{
 
 				case 4:{
 					
-					System.out.println("Enter Batch First for Updation: ");
-					String alumini_batch=k.next();
-					System.out.println("Enter ID for Updation: ");
-					int alumini_id=k.nextInt();
-					als.update(alumini_batch,alumini_id);
+					
+					als.update();
 				}				
 				break;
 
+				
 				case 5:{
-					
 					
 					als.delete();
 				}
 				break;
-
+				
 				case 6:{
-					
+						
+					als.sortBatchWise();
 				}
 				break;
 
+				
 				case 7:{
-	
-				}				
+					
+					evs.addEvent();
+				}
 				break;
-
+				
 				case 8:{
-	
+					evs.showEventAlumini();
 				}
 				break;
 
 				case 9:{
+					
+				}				
+				break;
+
+				case 10:{
+	
+				}
+				break;
+
+				case 11:{
 	
 				}
 				break;

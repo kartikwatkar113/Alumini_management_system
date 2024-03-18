@@ -98,8 +98,8 @@ public class aluminiModel {
 	public void setAlumini_jd(String alumini_jd) {
 		this.alumini_jd = alumini_jd;
 	}
-	
-	
+
+
 	
 	
 
