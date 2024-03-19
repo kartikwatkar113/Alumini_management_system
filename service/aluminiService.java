@@ -1,13 +1,12 @@
 package Alumini_Management_System.service;
 import java.util.*;
-
 import Alumini_Management_System.model.aluminiModel;
 import Alumini_Management_System.repository.aluminiRepo;
 
 public class aluminiService {
 	Scanner k=new Scanner(System.in);
 	aluminiRepo alr=new aluminiRepo();
-	Vector<aluminiModel>vc;
+	ArrayList<aluminiModel>almodel;
 	
 	
 /*-----------------this is for add data in vector---------------*/
@@ -25,8 +24,8 @@ public class aluminiService {
 		System.out.println("Enter Alumini Email...");
 		String alumini_email = k.next();
 		try {
-			vc = alr.getAluminiData();
-			for (aluminiModel alm : vc) {
+			almodel = alr.getAluminiData();
+			for (aluminiModel alm : almodel) {
 				if (alm.getAlumini_email().equals(alumini_email)) {
 					flag = true;
 					break;
@@ -65,14 +64,14 @@ public class aluminiService {
 	public void show() {
 		
 		try {
-			vc=alr.getAluminiData();
+			almodel=alr.getAluminiData();
 			
-			if(vc.size()>0) {
+			if(almodel.size()>0) {
 				System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
 				System.out.println("Alumini Batch\t||Alumini Id\t||Alumini Name\t||Alumini Email\t||Alumini Mobile Number\t||Alumini Address\t||Alumini Job Description");
 				System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
 				
-				for(aluminiModel alm:vc) {
+				for(aluminiModel alm:almodel) {
 					System.out.println(alm.getAlumini_batch()+"\t"+alm.getAlumini_id()+"\t"+alm.getAlumini_name()+"\t"+alm.getAlumini_email()+"\t"+alm.getAlumini_mob()+"\t"+alm.getAlumini_address()+"\t"+alm.getAlumini_jd());
 				}
 			}
@@ -87,43 +86,43 @@ public class aluminiService {
 	
 	/*--------------------this is for searching----------------------*/
 	
-	public Vector<aluminiModel>searchByID(int alumini_id) {
-		Vector v1=new Vector();
-		boolean flag=false;
-		vc=alr.getAluminiData();
+	public ArrayList<aluminiModel>searchByID(int alumini_id) {
+		ArrayList<aluminiModel> almodel1=new ArrayList<aluminiModel>();
+//		boolean flag=false;
+		almodel=alr.getAluminiData();
 		
-		for(aluminiModel alm:vc){
+		for(aluminiModel alm:almodel){
 			
 			if(alm.getAlumini_id()==alumini_id){
-				v1.add(alm);
+				almodel1.add(alm);
 			}
 		}
 		
-		return v1;
+		return almodel1;
 
 	}
-	public Vector<aluminiModel> searchByName(String alumini_name) {
-		Vector v1=new Vector();
-		boolean flag=false;
-		vc=alr.getAluminiData();
-		for(aluminiModel alm:vc) {
+	public ArrayList<aluminiModel> searchByName(String alumini_name) {
+		ArrayList<aluminiModel> almodel1=new ArrayList<aluminiModel>();
+//		boolean flag=false;
+		almodel=alr.getAluminiData();
+		for(aluminiModel alm:almodel) {
 			if(alm.getAlumini_name().equals(alumini_name)) {
-				v1.add(alm);
+				almodel1.add(alm);
 			}
 		}
-		return v1;
+		return almodel1;
 		
 	}
-	public Vector<aluminiModel> searchByEmail(String alumini_email) {
-		Vector v1=new Vector();
-		boolean flag=false;
-		vc=alr.getAluminiData();
-		for(aluminiModel alm:vc) {
+	public ArrayList<aluminiModel> searchByEmail(String alumini_email) {
+		ArrayList<aluminiModel> almodel1=new ArrayList<aluminiModel>();
+//		boolean flag=false;
+		almodel=alr.getAluminiData();
+		for(aluminiModel alm:almodel) {
 			if(alm.getAlumini_email().equals(alumini_email)) {
-				v1.add(alm);
+				almodel1.add(alm);
 			}
 		}
-		return v1;
+		return almodel1;
 	
 	}
 	
@@ -131,10 +130,9 @@ public class aluminiService {
 	
 	public void update() {
 		aluminiModel alm = null;
-		vc = alr.getAluminiData();
+		almodel = alr.getAluminiData();
 
-		if (vc.size() > 0) {
-			int flag = 0;
+		if (almodel.size() > 0) {
 			System.out.println("Enter Batch First for Updation: ");
 			String alumini_batch=k.next();
 			System.out.println("Enter ID for Updation: ");
@@ -142,8 +140,8 @@ public class aluminiService {
 			
 			String modify_batch = null;
 			
-			for (int i = 0; i < vc.size(); i++) {
-				Object ob = vc.get(i);
+			for (int i = 0; i < almodel.size(); i++) {
+				Object ob = almodel.get(i);
 				aluminiModel alm1 = (aluminiModel) ob;
 				if (alm1.getAlumini_batch().equals(alumini_batch)) {
 
@@ -174,7 +172,7 @@ public class aluminiService {
 
 								alm = new aluminiModel(modify_batch, alm1.getAlumini_id(), modify_name, modify_email,
 										modify_mob, modify_address, modify_jd);
-								vc.setElementAt(alm, i);
+								almodel.set(i, alm);
 								System.out.println("Alumini Data Modify succesfully..... :)");
 								
 							}
@@ -193,7 +191,7 @@ public class aluminiService {
 
 								alm = new aluminiModel(alm1.getAlumini_batch(), alm1.getAlumini_id(), modify_name,
 										modify_email, modify_mob, modify_address, modify_jd);
-								vc.setElementAt(alm, i);
+								almodel.set(i, alm);
 								System.out.println("Alumini Data Modify succesfully..... :)");
 							}
 								break;
@@ -220,31 +218,27 @@ public class aluminiService {
 	public void delete() {
 		
 		
-		vc=alr.getAluminiData();
+		almodel=alr.getAluminiData();
 		
-		if (vc.size() > 0) {
+		if (almodel.size() > 0) {
 			boolean flag=false;
 			System.out.println("Enter Batch First for Updation: ");
 			String alumini_batch=k.next();
 			System.out.println("Enter ID for Updation: ");
 			int alumini_id=k.nextInt();
 			
-			for (int i = 0; i < vc.size(); i++) {
-				Object ob = vc.get(i);
+			for (int i = 0; i < almodel.size(); i++) {
+				Object ob = almodel.get(i);
 				aluminiModel alm = (aluminiModel) ob;
 				if (alm.getAlumini_batch().equals(alumini_batch)) {
 					
 					if(alm.getAlumini_id()==alumini_id) {
-						vc.remove(i);
+						almodel.remove(i);
 						flag = true;
 					}
-					else {
-						System.out.println("Enter valid ID....");
-					}
+					
 				}
-				else {
-					System.out.println("Enter valid Batch Name....");
-				}
+				
 			}
 			
 			if(flag) {
@@ -265,30 +259,30 @@ public class aluminiService {
 
 	public void sortBatchWise() {
 		
-		vc=alr.getAluminiData();
+		almodel=alr.getAluminiData();
 		
-		if(vc.size()>0) {
+		if(almodel.size()>0) {
 			
 			SortByBatch sbb=new SortByBatch();
 			
-			Collections.sort(vc, sbb);
+			Collections.sort(almodel, sbb);
 			
-			Vector<aluminiModel>v1=new Vector<aluminiModel>(vc);
+			ArrayList<aluminiModel>almodel1=new ArrayList<aluminiModel>(almodel);
 			
 			System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
 			System.out.println("Alumini Id\t||Alumini Name\t||Alumini Email\t||Alumini Mobile Number\t||Alumini Address\t||Alumini Job Description");
 			System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
 			
-			for(int i=0;i<v1.size();i++) {
-				System.out.println("[" + (v1.get(i).getAlumini_batch()) + "] Alumni Batch: \n"
+			for(int i=0;i<almodel1.size();i++) {
+				System.out.println("[" + (almodel1.get(i).getAlumini_batch()) + "] Alumni Batch: \n"
 						+ "--------------------------------------------------------------------------------------------\n");
-				System.out.println(v1.get(i).getAlumini_id()+"\t"+v1.get(i).getAlumini_name()+"\t"+v1.get(i).getAlumini_email()+"\t"+v1.get(i).getAlumini_mob()+"\t"+v1.get(i).getAlumini_address()+"\t"+v1.get(i).getAlumini_jd());
+				System.out.println(almodel1.get(i).getAlumini_id()+"\t"+almodel1.get(i).getAlumini_name()+"\t"+almodel1.get(i).getAlumini_email()+"\t"+almodel1.get(i).getAlumini_mob()+"\t"+almodel1.get(i).getAlumini_address()+"\t"+almodel1.get(i).getAlumini_jd());
 				
-				for(int j=(i+1);j<v1.size();j++) {
-					if(v1.get(i).getAlumini_batch().equals(v1.get(j).getAlumini_batch())) {
+				for(int j=(i+1);j<almodel1.size();j++) {
+					if(almodel1.get(i).getAlumini_batch().equals(almodel1.get(j).getAlumini_batch())) {
 						
-						System.out.println(v1.get(j).getAlumini_id()+"\t"+v1.get(j).getAlumini_name()+"\t"+v1.get(j).getAlumini_email()+"\t"+v1.get(j).getAlumini_mob()+"\t"+v1.get(j).getAlumini_address()+"\t"+v1.get(j).getAlumini_jd());
-						v1.remove(j);
+						System.out.println(almodel1.get(j).getAlumini_id()+"\t"+almodel1.get(j).getAlumini_name()+"\t"+almodel1.get(j).getAlumini_email()+"\t"+almodel1.get(j).getAlumini_mob()+"\t"+almodel1.get(j).getAlumini_address()+"\t"+almodel1.get(j).getAlumini_jd());
+						almodel1.remove(j);
 					}
 				}
 				System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");

@@ -4,17 +4,23 @@ import java.util.*;
 
 import Alumini_Management_System.model.EventModel;
 import Alumini_Management_System.model.aluminiModel;
+import Alumini_Management_System.model.attendanceModel;
 import Alumini_Management_System.repository.EventRepo;
 import Alumini_Management_System.repository.aluminiRepo;
+
+
+
 public class EventService {
 
 	Scanner k=new Scanner(System.in);
 	EventRepo evRepo=new EventRepo();
-	EventModel evm;
-	aluminiModel alm;
-	aluminiRepo alr;
 	
-	Vector <EventModel>v2;
+	aluminiModel alm=new aluminiModel();
+	aluminiRepo alr=new aluminiRepo();
+	
+	
+	ArrayList <EventModel>evemodel;
+	ArrayList<aluminiModel>almodel;
 	
 /*-------------------this is for add event------------------------------*/
 	public void addEvent() {
@@ -24,8 +30,8 @@ public class EventService {
 		System.out.println("Enter Event Name...");
 		String ev_name=k.next();
 		try {
-			v2=evRepo.getEventDetails();
-			for(EventModel evm:v2) {
+			evemodel=evRepo.getEventDetails();
+			for(EventModel evm:evemodel) {
 				if(evm.getEv_name().equals(ev_name)) {
 					flag=true;
 					break;
@@ -40,9 +46,8 @@ public class EventService {
 			String ev_date=k.next();
 			System.out.println("Enter Time(Hour:minute)(am/pm):");
 			String ev_time=k.next();
-			
-			Vector<aluminiModel>v3=new Vector<aluminiModel>(alr.getAluminiData());
-			evm=new EventModel(ev_name,ev_date,ev_time,v3);
+	
+			EventModel evm=new EventModel(ev_name,ev_date,ev_time);
 			
 			boolean b=evRepo.isEventAdd(evm);
 			
@@ -61,40 +66,100 @@ public class EventService {
 	
 /*--------------------this is for show Event with Alumini data----------------------*/
 	
-	public void showEventAlumini() {
-		
-		v2=evRepo.getEventDetails();
-		
-		if(v2.size()>0) {
+	public void showEvent() {
+
+		try {
 			
-			System.out.println("\n-------------------------------------------------------------------------------------");
-			System.out.println("Event Name\t || Date\t || Time");
-			System.out.println("-------------------------------------------------------------------------------------");
+			evemodel=evRepo.getEventDetails();
 			
-			for(int i=0;i<v2.size();i++) {
+			if(evemodel.size()>0) {
 				
-				Object ob=v2.get(i);
-				EventModel evm=(EventModel)ob;
-				System.out.println(evm.getEv_name()+"\t"+evm.getEv_date()+"\t"+evm.getEv_time());
+				System.out.println("\n-------------------------------------------------------------------------------------");
+				System.out.println("Event Name\t || Date\t || Time");
+				System.out.println("-------------------------------------------------------------------------------------");
 				
-				Iterator<aluminiModel> itr=evm.getSetAlumini().iterator();
 				
-				while(itr.hasNext()) {
-					
-					System.out.println(itr.next());
+				for(EventModel evm:evemodel) {
+	
+					System.out.println(evm.getEv_name()+"\t"+evm.getEv_date()+"\t"+evm.getEv_time());
 				}
 				
-				
-//				for(Object ob1:evm.getSetAlumini()) {
-//					
-//				}
-				
-				
+			}
+			else {
+				System.out.println("There is no Event Record found.......");
 			}
 			
 		}
-		else {
-			System.out.println("There is no Event Record found.......");
+		catch(Exception e) {
+			System.out.println("All Records Deleted.... :(");
 		}
+		
+	}
+	
+/*-------------------this is for takeAttendance------------------*/
+	
+	public void takeAttendance() {
+		k.nextLine();
+		System.out.println("Enter Alumini name: ");
+		String alumini_name1=k.next();
+		System.out.println("Enter Event name: ");
+		String eve_name1=k.next();
+		
+		if(evRepo.takeAttendance(eve_name1,alumini_name1)) {
+			System.out.println("Attendance Marked... :)");
+		}
+		else {
+			System.out.println("There is something Wrong... :(");
+		}
+
+	}
+	
+/*----------------this is for present alumini----------------------*/
+	
+	public void presentAlumini() {
+		
+		System.out.println("Enter Event Name: ");
+		String eve_name2=k.next();
+
+		System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("Alumini Batch\t||Alumini Id\t||Alumini Name\t||Alumini Email\t||Alumini Mobile Number\t||Alumini Address\t||Alumini Job Description");
+		System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
+		
+		for(attendanceModel atm:evRepo.presentAlumini()) {
+			
+			for(aluminiModel alm:alr.getAluminiData()) {
+				
+				if( atm.getAlumini_name1().equalsIgnoreCase(alm.getAlumini_name())&& atm.getEve_name1().equalsIgnoreCase(eve_name2)) {
+					
+					alm.setStatus(true);
+					System.out.println(alm.getAlumini_batch()+"\t"+alm.getAlumini_id()+"\t"+alm.getAlumini_name()+"\t"+alm.getAlumini_email()+"\t"+alm.getAlumini_mob()+"\t"+alm.getAlumini_address()+"\t"+alm.getAlumini_jd());
+				}
+			}
+		}
+	}
+	
+/*----------------------this is for Absent alumini-----------------*/
+	
+	public void absentAlumini() {
+
+		System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("Alumini Batch\t||Alumini Id\t||Alumini Name\t||Alumini Email\t||Alumini Mobile Number\t||Alumini Address\t||Alumini Job Description");
+		System.out.println("\n-------------------------------------------------------------------------------------------------------------------------------------------");
+
+			
+			for(aluminiModel alm:alr.getAluminiData()) {				
+
+					
+					if(alm.isStatus()==false) {
+
+						System.out.println(alm.getAlumini_batch()+"\t"+alm.getAlumini_id()+"\t"+alm.getAlumini_name()+"\t"+alm.getAlumini_email()+"\t"+alm.getAlumini_mob()+"\t"+alm.getAlumini_address()+"\t"+alm.getAlumini_jd());
+					}
+					
+			}
+			for(aluminiModel alm:alr.getAluminiData()) {
+				
+				alm.setStatus(false);
+			}
+		
 	}
 }

@@ -9,8 +9,19 @@ public class aluminiModel {
 	private String alumini_mob;
 	private String alumini_address;
 	private String alumini_jd;
+	private boolean status;
 
 	
+	public boolean isStatus() {
+		return status;
+	}
+
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+
 	public aluminiModel() {
 		
 	}
